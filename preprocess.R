@@ -35,4 +35,31 @@ collision.final$Property.Damage.Percent <- collision.final$Property.Damage/colli
 
 collision.final[is.na(collision.final)] = 0
 
+# # preprocessing for months
+months.string <- c("January", "February", "March", "April", "May", "June",
+                   "July", "September", "October", "November", "December")
+
+collision.final$month.string  = "January"
+collision.final[collision.final$month==2, "month.string"] = "February"
+collision.final[collision.final$month==3, "month.string"] = "March"
+collision.final[collision.final$month==4, "month.string"] = "April"
+collision.final[collision.final$month==5, "month.string"] = "May"
+collision.final[collision.final$month==6, "month.string"] = "June"
+collision.final[collision.final$month==7, "month.string"] = "July"
+collision.final[collision.final$month==8, "month.string"] = "August"
+collision.final[collision.final$month==9, "month.string"] = "September"
+collision.final[collision.final$month==10, "month.string"] = "October"
+collision.final[collision.final$month==11, "month.string"] = "November"
+collision.final[collision.final$month==12, "month.string"] = "December"
+
+collision.final$month.string = factor(collision.final$month.string,
+                                      levels=c("January", "February", "March", "April",
+                                               "May", "June", "July", "August", "September",
+                                               "October", "November", "December"))
+
+
 save(collision.final, file="data/collision.final.RObject")
+write.csv(collision.final, file="data/collision.final.csv", row.names=F)
+
+load("data/cities.gps.RObject")
+write.csv(cities.gps, file="data/cities.gps.csv", row.names = F)

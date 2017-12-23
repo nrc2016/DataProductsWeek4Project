@@ -1,5 +1,6 @@
 library(shiny)
 library(leaflet)
+library(plotly)
 
 # creaet the Shiny UI
 ui <- fluidPage (

@@ -1,12 +1,12 @@
 # calculate the radius for the city given a specific month
-calculateRadius <- function(month) {
+calculateRadius <- function(month, collision.final) {
   df <- collision.final[collision.final$month==as.numeric(format(month, "%m")),]
 
   return(df[,"Collisions"])
 }
 
 # calculate the colour of the circles given a specific month
-calculateColor <- function(month) {
+calculateColor <- function(month, collision.final) {
   df <- collision.final[collision.final$month==as.numeric(format(month, "%m")),]
   df$color <- "blue"
   df[df$Collisions==1, "color"] = "green"
@@ -17,7 +17,7 @@ calculateColor <- function(month) {
 }
 
 # create the city collision plot
-createCollisionPlot <- function (input, city) {
+createCollisionPlot <- function (input, city, collision.final) {
   df <- collision.final[collision.final$CITY_NAME==city,]
   return(df %>%
     plot_ly(x=~month.string) %>%
@@ -31,7 +31,7 @@ createCollisionPlot <- function (input, city) {
 }
 
 # create the city percentage of collisions with injury plot
-createInjuryPlot <- function (input, city) {
+createInjuryPlot <- function (input, city, collision.final) {
   return(    collision.final[collision.final$CITY_NAME==city,] %>%
                plot_ly(x=~month.string) %>%
                add_lines(y=~Injury.Percent) %>%
@@ -45,7 +45,7 @@ createInjuryPlot <- function (input, city) {
 }
 
 # create the city percentage of collisions with property damage plot
-createPropertyDamagePlot <- function (input, city) {
+createPropertyDamagePlot <- function (input, city, collision.final) {
   return(    collision.final[collision.final$CITY_NAME==city,] %>%
                plot_ly(x=~month.string) %>%
                add_lines(y=~Property.Damage.Percent) %>%
@@ -59,7 +59,7 @@ createPropertyDamagePlot <- function (input, city) {
 }
 
 # locate the closest city to the mouse click on the map
-findCityFromClick <- function(input) {
+findCityFromClick <- function(input, cities.gps) {
   # initialize the closest city and distance
   closest = 9999999
   closest.city = NULL
